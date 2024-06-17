@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Cast History</title>
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="https://example.com/image.png" />
+    <meta property="fc:frame:button:1" content="Show My History" />
+    <script>
+        async function fetchHistory(fid) {
+            const response = await fetch(`https://api.warpcast.com/v1/users/${fid}/casts`);
+            const data = await response.json();
+            let history = '';
+            data.casts.forEach(cast => {
+                history += `<p>${cast.text}</p>`;
+            });
+            document.getElementById('history').innerHTML = history;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('show-history').addEventListener('click', function() {
+                fetchHistory('1234'); // Replace '1234' with the actual user's fid
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Warpcast User History</h1>
+    <button id="show-history">Show My History</button>
+    <div id="history"></div>
+</body>
+</html>
